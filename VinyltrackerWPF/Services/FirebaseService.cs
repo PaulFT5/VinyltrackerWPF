@@ -15,11 +15,11 @@ namespace VinylTrackerWPF.Services;
         _client = new FirebaseClient("https://vinyltracker-9f84c-default-rtdb.europe-west1.firebasedatabase.app/");
     }
 
-    public async Task AddVinylAsync(VinylRecord vinyl)
+    public async Task AddVinylAsync(VinylRecord vinyl, string userId)
     {
         await _client
             .Child("Users")
-            .Child("UserId")
+            .Child(userId) // Use the dynamic ID from AuthService
             .Child("Vinyls")
             .PostAsync(vinyl);
     }
