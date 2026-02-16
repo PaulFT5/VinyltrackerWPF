@@ -68,7 +68,7 @@ public class DiscogsService
 
             ImageUrl = data["images"]?[0]?["resource_url"]?.ToString(), 
 
-            RecomandedPrice = data["lowest_price"]?.ToString() ?? "N/A",
+            RecomandedPrice = data["lowest_price"]?.Value<double?>() ?? 0.0,
 
             Tracks = data["tracklist"]?.Select(t => new Track //make it take only vinyls
             {

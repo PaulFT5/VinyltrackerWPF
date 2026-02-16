@@ -71,11 +71,11 @@
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Total Albums" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="1" Grid.Row="0" Text="Collection price" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Total records" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Favourite Genre" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="1" x:Name="AlbumCount"  Text="{Binding AlbumCounter, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" x:Name="CollectionValue" Text="$0.00" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Grid.Row="1" x:Name="RecordCount" Text="0" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" x:Name="AlbumCount"  Text="{Binding AlbumCounter}" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" x:Name="CollectionValue" Text="{Binding CollectionValueAmount, StringFormat=€{0:F2}}" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding FavoriteGenre}" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
             </Border>
         </Grid>

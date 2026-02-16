@@ -40,7 +40,9 @@ namespace VinylTrackerWPF.Services;
             Id = item.Key,
             Artist = item.Object.Artist,
             Album = item.Object.Album,
-            Year = item.Object.Year
+            Year = item.Object.Year,
+            RecomandedPrice = item.Object.RecomandedPrice,
+            Genre = item.Object.Genre,
             // ... map other properties as needed
         }).ToList();
     }
