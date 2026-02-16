@@ -24,5 +24,24 @@ namespace VinylTrackerWPF.Services;
             .PostAsync(vinyl);
     }
 
+
     //get vinyl for user
+    public async Task<List<VinylRecord>> GetUserVinylsAsync(string userId)
+    {
+        var vinyls = await _client
+            .Child("Users")
+            .Child(userId)
+            .Child("Vinyls")
+            .OnceAsync<VinylRecord>();
+
+        return vinyls.Select(item => new VinylRecord
+        {
+            // If your Model has an 'Id' property, map the Firebase Key to it
+            Id = item.Key,
+            Artist = item.Object.Artist,
+            Album = item.Object.Album,
+            Year = item.Object.Year
+            // ... map other properties as needed
+        }).ToList();
+    }
 }

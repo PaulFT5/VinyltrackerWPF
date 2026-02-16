@@ -10,20 +10,25 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VinylTrackerWPF.Services;
 using VinyltrackerWPF.Page;
+using System.ComponentModel;
 
 namespace VinyltrackerWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         AuthService _auth = new AuthService();
         FirebaseService _firebaseService = new FirebaseService();
         DiscogsService _discogsService = new DiscogsService();
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             CheckAuth();
         }
 
@@ -35,13 +40,26 @@ namespace VinyltrackerWPF
                     this.Close();
             }
         }
+        
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
+        public int AlbumCounter
+        {
+            get
+            {
+                return _firebaseService.GetUserVinylsAsync(_auth.GetClient()?.User?.Uid ?? "").Result.Count;
+                // This should ideally fetch the count from Firebase for the current user
+                // For demonstration, we'll return a placeholder value
+                //return 42; // Replace with actual count retrieval logic
+            }
+        }
         private async void QuickAddBtn_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Get the text from the SearchBox
             string query = SearchBox.Text;
-
-            // Simple validation to ensure they didn't just click with placeholder text
+            
             if (string.IsNullOrWhiteSpace(query) || query == "Search for albums or artists...")
             {
                 MessageBox.Show("Please enter an artist or album name first.");
@@ -93,6 +111,11 @@ namespace VinyltrackerWPF
 
             this.Close();
             //throw new NotImplementedException();
+        }
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

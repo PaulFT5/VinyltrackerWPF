@@ -8,8 +8,8 @@ public class VinylRecord
     public string Album { get; set; } = string.Empty; //
     public string Year { get; set; } = string.Empty; //
     public string? ImageUrl { get; set; } // URL for the album cover
-    public List<Track> Tracks { get; set; } = new List<Track>(); //
-    public string MinPrice { get; set; } = "N/A";
-    public string MaxPrice { get; set; } = "N/A";
-    public string MedianPrice { get; set; } = "N/A";
+    public List<Track> Tracks { get; set; } = new List<Track>(); // take only vinyls
+    public string RecomandedPrice { get; set; } = "N/A";
+
+    public string Genre { get; set; } = string.Empty;
 }

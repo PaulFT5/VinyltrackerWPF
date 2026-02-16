@@ -39,7 +39,7 @@
                    HorizontalAlignment="Center"
                    Foreground="Gray"/>
 
-                    <TextBox x:Name="SearchBox" Grid.Column="1"
+                    <TextBox x:Name="SearchBox" Grid.Column="1" 
                              Background="Transparent"
                              BorderThickness="0"
                              VerticalAlignment="Center"
@@ -56,7 +56,29 @@
         </Grid>
 
         <!--Collection details/value-->
-        <Grid Grid.Row="1" Background="#FF2D2D30"></Grid>
+        <Grid Grid.Row="1" Background="#FF2D2D30">
+            <Border BorderThickness="1" BorderBrush="white" CornerRadius="15" Margin="15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Total Albums" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="Collection price" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Total records" FontSize="20" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" x:Name="AlbumCount"  Text="{Binding AlbumCounter, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" x:Name="CollectionValue" Text="$0.00" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" x:Name="RecordCount" Text="0" FontSize="18" Foreground="LightGray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </Grid>
 
         <!--Collection-->
         <Grid Grid.Row="2" Background="#FF2D2D30"></Grid>

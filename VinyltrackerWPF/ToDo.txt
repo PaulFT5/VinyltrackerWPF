@@ -1,0 +1,11 @@
+﻿Discogs
+	//Check that discogs API works: take eonly vinyls
+	//Fix Prices (Median, Low)
+	If a song is added, put the album or throw an error
+	
+Details page
+	Show favourite genre
+	Collection price
+	Owned LP's
+
+Search

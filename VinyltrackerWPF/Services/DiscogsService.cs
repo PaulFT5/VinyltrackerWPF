@@ -53,17 +53,24 @@ public class DiscogsService
 
         var data = JObject.Parse(response.Content);
 
+        var masterID = data["master_id"]?.ToString(); //Use master id to find an album first release date, number returned as string
         return new VinylRecord
         {
             DiscogsId = discogsId,
             Artist = data["artists"]?[0]?["name"]?.ToString() ?? "Unknown",
             Album = data["title"]?.ToString() ?? "Unknown",
-            Year = data["year"]?.ToString() ?? "N/A",
-            ImageUrl = data["images"]?[0]?["resource_url"]?.ToString(),
 
-            MinPrice = data["lowest_price"]?.ToString() ?? "N/A",
+            //Year = data["year"]?.ToString() ?? "N/A",
+            Year = data["year"]?.ToString() ?? 
+                    data["released"]?.ToString() ?? "N/A",
 
-            Tracks = data["tracklist"]?.Select(t => new Track
+            Genre = data["genres"]?[0]?.ToString() ?? "Unknown",
+
+            ImageUrl = data["images"]?[0]?["resource_url"]?.ToString(), 
+
+            RecomandedPrice = data["lowest_price"]?.ToString() ?? "N/A",
+
+            Tracks = data["tracklist"]?.Select(t => new Track //make it take only vinyls
             {
                 Title = t["title"]?.ToString() ?? "Unknown Track",
                 Position = t["position"]?.ToString() ?? "",
