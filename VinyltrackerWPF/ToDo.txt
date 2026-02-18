@@ -4,8 +4,15 @@
 	If a song is added, put the album or throw an error
 	
 Details page
-	Show favourite genre
-	Collection price
-	Owned LP's
+	//Show favourite genre
+	//Collection price
+	//Owned LP's
 
 Search
+	searching name will bring a list of type image:album:artist, clicking on it will open a page with more details where
+user can add to it's collection
+	adding will require user to insert the price, if not, it will use Recomanded price
+
+Collection
+	show all albums, scrollable page, make it have basic information. 3 dots in the corner of each one that will let the
+user remove it from collection
