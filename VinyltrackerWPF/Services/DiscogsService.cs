@@ -53,7 +53,7 @@ public class DiscogsService
 
         var data = JObject.Parse(response.Content);
 
-        var masterID = data["master_id"]?.ToString(); //Use master id to find an album first release date, number returned as string
+        var masterID = data["master_id"]?.ToString(); //Master album = first release
         return new VinylRecord
         {
             DiscogsId = discogsId,
@@ -70,12 +70,20 @@ public class DiscogsService
 
             RecomandedPrice = data["lowest_price"]?.Value<double?>() ?? 0.0,
 
-            Tracks = data["tracklist"]?.Select(t => new Track //make it take only vinyls
+            Tracks = data["tracklist"]?.Select(t => new Track
             {
                 Title = t["title"]?.ToString() ?? "Unknown Track",
                 Position = t["position"]?.ToString() ?? "",
                 Duration = t["duration"]?.ToString() ?? ""
-            }).ToList() ?? new List<Track>()
+            })
+
+.Where(t => !string.IsNullOrWhiteSpace(t.Position) &&
+            char.IsLetter(t.Position[0]) && // Vinyl sides usually start with A, B, C...
+            !t.Position.StartsWith("USB", StringComparison.OrdinalIgnoreCase) &&
+            !t.Position.StartsWith("CD", StringComparison.OrdinalIgnoreCase) &&
+            !t.Position.StartsWith("DVD", StringComparison.OrdinalIgnoreCase) &&
+            !t.Position.StartsWith("BR", StringComparison.OrdinalIgnoreCase))
+.ToList() ?? new List<Track>()
         };
     }
 }

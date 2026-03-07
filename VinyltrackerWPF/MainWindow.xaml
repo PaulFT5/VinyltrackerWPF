@@ -31,7 +31,8 @@
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
+                    
+                   <!--Text icon-->
                     <TextBlock Grid.Column="0"
                    Text="🔍"
                    FontSize="14"
@@ -39,6 +40,7 @@
                    HorizontalAlignment="Center"
                    Foreground="Gray"/>
 
+                    <!--Text bar-->
                     <TextBox x:Name="SearchBox" Grid.Column="1" 
                              Background="Transparent"
                              BorderThickness="0"
@@ -47,8 +49,10 @@
                              FontSize="14"
                              Foreground="LightGray"
                              Text="Search for albums or artists..."
+                             GotFocus="SearchBox_GotFocus" 
+                             LostFocus="SearchBox_LostFocus"
                              Padding="5,0"/>
-
+                             
                 </Grid>
             </Border>
 
@@ -82,8 +86,51 @@
 
         <!--Collection-->
         <Grid Grid.Row="2" Background="#FF2D2D30">
-            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
 
+                <ItemsControl ItemsSource="{Binding VinylCollection}">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#3E3E42" CornerRadius="10" Margin="15,10,15,10" Padding="10">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Grid.Column="0" Source="{Binding ImageUrl}" Width="130" Height="130" 
+                                   Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Text="{Binding Album}" FontSize="22" FontWeight="Bold" Foreground="White"/>
+                                        <TextBlock Text="{Binding Artist}" FontSize="18" Foreground="#DDDDDD"/>
+                                        <TextBlock Text="{Binding Year, StringFormat='Year: {0}'}" FontSize="14" Foreground="Gray" Margin="0,0,0,10"/>
+
+                                        <TextBlock Text="Tracklist:" FontSize="14" FontWeight="SemiBold" Foreground="White" Margin="0,5,0,5"/>
+
+                                        <ItemsControl ItemsSource="{Binding Tracks}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="LightGray" FontSize="13" Margin="0,2,0,0">
+                                                <Run Text="{Binding Position}"/>
+                                                <Run Text=" - "/>
+                                                <Run Text="{Binding Title}"/>
+                                                <Run Text=" ("/>
+                                                <Run Text="{Binding Duration}"/>
+                                                <Run Text=")"/>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
 

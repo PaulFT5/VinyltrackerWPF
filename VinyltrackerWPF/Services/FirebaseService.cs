@@ -43,6 +43,8 @@ namespace VinylTrackerWPF.Services;
             Year = item.Object.Year,
             RecomandedPrice = item.Object.RecomandedPrice,
             Genre = item.Object.Genre,
+            ImageUrl = item.Object.ImageUrl,
+            Tracks = item.Object.Tracks ?? new List<Track>()
             // ... map other properties as needed
         }).ToList();
     }

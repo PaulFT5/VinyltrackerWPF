@@ -1,4 +1,6 @@
-﻿Discogs
+﻿Login 
+	Google Login
+Discogs
 	//Check that discogs API works: take eonly vinyls
 	//Fix Prices (Median, Low)
 	If a song is added, put the album or throw an error
@@ -9,7 +11,7 @@ Details page
 	//Owned LP's
 
 Search
-	searching name will bring a list of type image:album:artist, clicking on it will open a page with more details where
+	searching name will bring a list of type image-album-artist, clicking on it will open a page with more details where
 user can add to it's collection
 	adding will require user to insert the price, if not, it will use Recomanded price
 
