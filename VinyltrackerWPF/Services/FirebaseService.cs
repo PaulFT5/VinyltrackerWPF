@@ -48,4 +48,14 @@ namespace VinylTrackerWPF.Services;
             // ... map other properties as needed
         }).ToList();
     }
+
+    public async Task RemoveVinylAsync(string vinylId, string userId)
+    {
+        await _client
+            .Child("Users")
+            .Child(userId)
+            .Child("Vinyls")
+            .Child(vinylId)
+            .DeleteAsync();
+    }
 }

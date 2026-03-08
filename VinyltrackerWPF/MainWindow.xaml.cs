@@ -118,7 +118,7 @@ using VinylTrackerWPF.Models;
                 {
                     VinylCollection.Add(vinyl);
                 }
-            } 
+            }
         }
 
 
@@ -208,6 +208,30 @@ using VinylTrackerWPF.Models;
             {
                 _vinylCollection = value;
                 OnPropertyChanged(nameof(VinylCollection));
+            }
+        }
+
+        private void DeleteCollectionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button clickedButton = sender as Button;
+            var _selectedVinyl = clickedButton.DataContext as VinylRecord;
+
+            if ((_selectedVinyl != null) && !string.IsNullOrEmpty(_selectedVinyl.Id))
+            {
+                MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete '{_selectedVinyl.Artist} - {_selectedVinyl.Album}' from your collection?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    string userId = _auth.GetClient()?.User?.Uid;
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        _ = _firebaseService.RemoveVinylAsync(_selectedVinyl.Id, userId);
+                        VinylCollection.Remove(_selectedVinyl);
+                        MessageBox.Show($"'{_selectedVinyl.Artist} - {_selectedVinyl.Album}' has been deleted from your collection.");
+                        RefreshStats();
+                    }
+                }
             }
         }
     }

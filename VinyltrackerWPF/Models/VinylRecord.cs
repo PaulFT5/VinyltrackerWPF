@@ -2,6 +2,7 @@
 
 public class VinylRecord
 {
+    public static VinylRecord SelectedItem { get; internal set; }
     public string? Id { get; set; } // Firebase internal ID
     public int DiscogsId { get; set; } // Unique ID from the Discogs Database
     public string Artist { get; set; } = string.Empty; //

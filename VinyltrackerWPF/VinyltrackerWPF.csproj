@@ -15,4 +15,8 @@
     <PackageReference Include="RestSharp" Version="113.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Icons\" />
+  </ItemGroup>
+
 </Project>

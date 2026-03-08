@@ -9,8 +9,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="75"/>
             <RowDefinition Height="130"/>
-            <RowDefinition Height="300"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <!--Top bar #FF2D2D30-->
@@ -89,41 +89,53 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
 
                 <ItemsControl ItemsSource="{Binding VinylCollection}">
+                    <ItemsControl.Style>
+                        <Style/>
+                    </ItemsControl.Style>
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Background="#3E3E42" CornerRadius="10" Margin="15,10,15,10" Padding="10">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="200" />
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="30" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Grid.Column="0" Source="{Binding ImageUrl}" Width="130" Height="130" 
+                                    <Image Grid.Column="0" Source="{Binding ImageUrl}" Width="200" Height="200" 
                                    Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                                     <StackPanel Grid.Column="1" Margin="10,0,0,0">
                                         <TextBlock Text="{Binding Album}" FontSize="22" FontWeight="Bold" Foreground="White"/>
                                         <TextBlock Text="{Binding Artist}" FontSize="18" Foreground="#DDDDDD"/>
                                         <TextBlock Text="{Binding Year, StringFormat='Year: {0}'}" FontSize="14" Foreground="Gray" Margin="0,0,0,10"/>
+                                    </StackPanel>
 
+                                    <StackPanel Grid.Column="2" Margin="15,10,15,10">
                                         <TextBlock Text="Tracklist:" FontSize="14" FontWeight="SemiBold" Foreground="White" Margin="0,5,0,5"/>
 
                                         <ItemsControl ItemsSource="{Binding Tracks}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Foreground="LightGray" FontSize="13" Margin="0,2,0,0">
-                                                <Run Text="{Binding Position}"/>
-                                                <Run Text=" - "/>
-                                                <Run Text="{Binding Title}"/>
-                                                <Run Text=" ("/>
-                                                <Run Text="{Binding Duration}"/>
-                                                <Run Text=")"/>
+                                                            <Run Text="{Binding Position}"/>
+                                                            <Run Text=" - "/>
+                                                            <Run Text="{Binding Title}"/>
+                                                            <Run Text=" ("/>
+                                                            <Run Text="{Binding Duration}"/>
+                                                            <Run Text=")"/>
                                                     </TextBlock>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-
+                                    </StackPanel>
+                                    
+                                    <StackPanel Grid.Column="3">
+                                        <Button x:Name="DeleteCollectionButton" Click="DeleteCollectionButton_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent">
+                                            <Image x:Name="DeleteButtonIcon" Width="25" Height="25" Source="C:\Users\User\source\repos\PaulFT5\VinyltrackerWPF\VinyltrackerWPF\Icons\binIcon.png"/>
+                                        </Button>
                                     </StackPanel>
                                 </Grid>
                             </Border>

@@ -1,5 +1,6 @@
 ﻿Login 
 	Google Login
+
 Discogs
 	//Check that discogs API works: take eonly vinyls
 	//Fix Prices (Median, Low)
@@ -16,5 +17,4 @@ user can add to it's collection
 	adding will require user to insert the price, if not, it will use Recomanded price
 
 Collection
-	show all albums, scrollable page, make it have basic information. 3 dots in the corner of each one that will let the
-user remove it from collection
+	//show all albums, scrollable page, make it have basic information. Icon top right corner that will delete the item 
