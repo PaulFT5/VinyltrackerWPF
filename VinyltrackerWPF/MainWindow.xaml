@@ -134,7 +134,7 @@
                                     
                                     <StackPanel Grid.Column="3">
                                         <Button x:Name="DeleteCollectionButton" Click="DeleteCollectionButton_Click" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent" BorderBrush="Transparent">
-                                            <Image x:Name="DeleteButtonIcon" Width="25" Height="25" Source="C:\Users\User\source\repos\PaulFT5\VinyltrackerWPF\VinyltrackerWPF\Icons\binIcon.png"/>
+                                            <Image x:Name="DeleteButtonIcon" Width="25" Height="25" Source="\Icons\binIcon.png"/>
                                         </Button>
                                     </StackPanel>
                                 </Grid>

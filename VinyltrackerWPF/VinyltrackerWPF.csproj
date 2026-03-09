@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\binIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
     <PackageReference Include="FirebaseDatabase.net" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -16,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Icons\" />
+    <Resource Include="Icons\binIcon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
