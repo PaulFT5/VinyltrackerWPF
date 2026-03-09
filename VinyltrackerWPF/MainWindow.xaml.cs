@@ -2,15 +2,16 @@
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
-    using VinyltrackerWPF.Page;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using VinyltrackerWPF.Page;
+using VinyltrackerWPF.Utils;
 using VinylTrackerWPF.Models;
     using VinylTrackerWPF.Services;
 
@@ -84,43 +85,26 @@ using VinylTrackerWPF.Models;
             }
         }
 
-
-
-
-        public string GetFavoriteGenre(IEnumerable<VinylRecord> vinyls)
-        {
-            if (vinyls == null || !vinyls.Any()) return "N/A";
-
-            var topGenre = vinyls
-            .GroupBy(v => v.Genre)
-            .OrderByDescending(g => g.Count())
-            .Select(g => g.Key)
-            .FirstOrDefault();
-
-            return topGenre ?? "N/A";
-        }
-
-
         private async Task RefreshStats()
         {
             string uid = _auth.GetClient()?.User?.Uid ?? "";
 
-            if (!string.IsNullOrEmpty(uid))
+            if (!uid.CheckClient()){ MessageBox.Show("An error has ocured, please try again"); return; }
+
+            var vinyls = await _firebaseService.GetUserVinylsAsync(uid);
+
+            var stats = vinyls.GetRefreshStats();
+
+            AlbumCounter = stats.Count;
+            CollectionValueAmount = stats.TotalValue;
+            FavoriteGenre = stats.FavoriteGenre;
+
+            VinylCollection.Clear();
+            foreach (var vinyl in vinyls)
             {
-                var vinyls = await _firebaseService.GetUserVinylsAsync(uid);
-
-                AlbumCounter = vinyls.Count;
-                CollectionValueAmount = vinyls.Sum(v => v.RecomandedPrice);
-                FavoriteGenre = GetFavoriteGenre(vinyls);
-
-                VinylCollection.Clear();
-                foreach (var vinyl in vinyls)
-                {
-                    VinylCollection.Add(vinyl);
-                }
+                VinylCollection.Add(vinyl);
             }
         }
-
 
         private async void QuickAddBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -215,23 +199,21 @@ using VinylTrackerWPF.Models;
         {
 
             Button clickedButton = sender as Button;
+
             var _selectedVinyl = clickedButton.DataContext as VinylRecord;
+            string userId = _auth.GetClient()?.User?.Uid;
 
-            if ((_selectedVinyl != null) && !string.IsNullOrEmpty(_selectedVinyl.Id))
+            if (!userId.CheckClient()) { MessageBox.Show("An error has ocured, please try again"); return; }
+            if ((!_selectedVinyl.Id.CheckClient()) || (_selectedVinyl == null)) { MessageBox.Show("An error has ocured, please try again"); return; }
+
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete '{_selectedVinyl.Artist} - {_selectedVinyl.Album}' from your collection?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete '{_selectedVinyl.Artist} - {_selectedVinyl.Album}' from your collection?", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    string userId = _auth.GetClient()?.User?.Uid;
-                    if (!string.IsNullOrEmpty(userId))
-                    {
-                        _ = _firebaseService.RemoveVinylAsync(_selectedVinyl.Id, userId);
-                        VinylCollection.Remove(_selectedVinyl);
-                        MessageBox.Show($"'{_selectedVinyl.Artist} - {_selectedVinyl.Album}' has been deleted from your collection.");
-                        RefreshStats();
-                    }
-                }
+                _ = _firebaseService.RemoveVinylAsync(_selectedVinyl.Id, userId);
+                VinylCollection.Remove(_selectedVinyl);
+                MessageBox.Show($"'{_selectedVinyl.Artist} - {_selectedVinyl.Album}' has been deleted from your collection.");
+                RefreshStats();
             }
         }
     }
