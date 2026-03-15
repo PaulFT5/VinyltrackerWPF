@@ -56,7 +56,9 @@
                 </Grid>
             </Border>
 
-            <Button Grid.Column="2" Content="Log out" Width="70" Height="30" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <Button Grid.Column="2" Width="70" Height="30" VerticalAlignment="Center" Margin="0,0,20,0" Click="Logout_Click" Background="Transparent" BorderBrush="Transparent" Cursor="Hand">
+                <Image Source="\Icons\logoutIcon.png" Width="20" Height="20"/>
+            </Button>
         </Grid>
 
         <!--Collection details/value-->

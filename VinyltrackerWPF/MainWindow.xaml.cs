@@ -195,7 +195,7 @@ using VinylTrackerWPF.Models;
             }
         }
 
-        private void DeleteCollectionButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteCollectionButton_Click(object sender, RoutedEventArgs e)
         {
 
             Button clickedButton = sender as Button;
@@ -210,10 +210,10 @@ using VinylTrackerWPF.Models;
 
             if (result == MessageBoxResult.Yes)
             {
-                _ = _firebaseService.RemoveVinylAsync(_selectedVinyl.Id, userId);
+                await _firebaseService.RemoveVinylAsync(_selectedVinyl.Id, userId);
                 VinylCollection.Remove(_selectedVinyl);
                 MessageBox.Show($"'{_selectedVinyl.Artist} - {_selectedVinyl.Album}' has been deleted from your collection.");
-                RefreshStats();
+                await RefreshStats();
             }
         }
     }

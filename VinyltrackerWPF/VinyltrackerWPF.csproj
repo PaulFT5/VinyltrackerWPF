@@ -10,6 +10,13 @@
 
   <ItemGroup>
     <None Remove="Icons\binIcon.png" />
+    <None Remove="Icons\logoutIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\logoutIcon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
