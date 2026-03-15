@@ -26,6 +26,7 @@ using VinylTrackerWPF.Models;
         FirebaseService _firebaseService = new FirebaseService();
         DiscogsService _discogsService = new DiscogsService();
 
+        //UI update when data changes
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public MainWindow()
@@ -33,7 +34,7 @@ using VinylTrackerWPF.Models;
             InitializeComponent();
             DataContext = this;
             CheckAuth();
-            _ = RefreshStats();
+            _ = RefreshStats(); //workaround to call async method in constructor.
         }
 
         private void CheckAuth()
@@ -118,34 +119,9 @@ using VinylTrackerWPF.Models;
 
             try
             {
-                // 2. Search Discogs and take the first result
-                var results = await _discogsService.SearchAlbumsAsync(query);
-                var bestMatch = results.FirstOrDefault();
-
-                if (bestMatch != null)
-                {
-                    // 3. Fetch full details (Tracklist and Prices) using the ID
-                    var fullRecord = await _discogsService.GetFullReleaseDetailsAsync(bestMatch.Id);
-
-                    if (fullRecord != null)
-                    {
-                        // 4. Get the current User ID from Firebase Auth
-                        // Your AuthService needs a way to expose the UID
-                        string userId = _auth.GetClient()?.User?.Uid;
-
-                        if (!string.IsNullOrEmpty(userId))
-                        {
-                            // 5. Save to Firebase
-                            await _firebaseService.AddVinylAsync(fullRecord, userId);
-                            MessageBox.Show($"Successfully added: {fullRecord.Artist} - {fullRecord.Album}!");
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No match found on Discogs.");
-                }
+                await AddVinylToCollectionAsync(query);
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
@@ -214,6 +190,24 @@ using VinylTrackerWPF.Models;
                 VinylCollection.Remove(_selectedVinyl);
                 MessageBox.Show($"'{_selectedVinyl.Artist} - {_selectedVinyl.Album}' has been deleted from your collection.");
                 await RefreshStats();
+            }
+        }
+
+        private async Task AddVinylToCollectionAsync(string query)
+        {
+            var results = await _discogsService.SearchAlbumsAsync(query);
+            var bestMatch = results.FirstOrDefault();
+            var fullRecord = await _discogsService.GetFullReleaseDetailsAsync(bestMatch.Id);
+
+            if (fullRecord != null)
+            {
+                string userId = _auth.GetClient()?.User?.Uid;
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    await _firebaseService.AddVinylAsync(fullRecord, userId);
+                    MessageBox.Show($"Successfully added: {fullRecord.Artist} - {fullRecord.Album}!");
+                }
             }
         }
     }
