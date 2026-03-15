@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VinyltrackerWPF.Page"
         mc:Ignorable="d"
-        Title="RegisterPage" Height="450" Width="800">
+        Title="RegisterPage" Height="450" Width="800" Background="#FF2D2D30">
     <Grid>
-        <TextBlock Text="Register" FontSize="24" FontWeight="Bold" 
+        <TextBlock Text="Register" FontSize="24" FontWeight="Bold" Foreground="White" 
                HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0"/>
 
         <StackPanel Name="LoginStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
