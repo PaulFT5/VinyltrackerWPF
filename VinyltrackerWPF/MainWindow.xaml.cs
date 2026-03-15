@@ -131,8 +131,7 @@ using VinylTrackerWPF.Models;
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            var authService = new AuthService();
-            authService.LogOut();
+            _auth.LogOut();
 
             LoginPage loginWindow = new LoginPage();
             loginWindow.Show();
@@ -197,18 +196,36 @@ using VinylTrackerWPF.Models;
         {
             var results = await _discogsService.SearchAlbumsAsync(query);
             var bestMatch = results.FirstOrDefault();
+
+            if (bestMatch == null)
+            {
+                MessageBox.Show("No match found on Discogs.");
+                return;
+            }
+
             var fullRecord = await _discogsService.GetFullReleaseDetailsAsync(bestMatch.Id);
 
-            if (fullRecord != null)
+            if (fullRecord == null)
             {
-                string userId = _auth.GetClient()?.User?.Uid;
-
-                if (!string.IsNullOrEmpty(userId))
-                {
-                    await _firebaseService.AddVinylAsync(fullRecord, userId);
-                    MessageBox.Show($"Successfully added: {fullRecord.Artist} - {fullRecord.Album}!");
-                }
+                MessageBox.Show("Could not fetch release details.");
+                return;
             }
+
+            string userId = _auth.GetClient()?.User?.Uid;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                MessageBox.Show("User not authenticated.");
+                return;
+            }
+
+            var confirmWindow = new ConfirmAddWindow(fullRecord);
+            confirmWindow.ShowDialog();
+
+            if (!confirmWindow.Confirmed) return;
+
+            await _firebaseService.AddVinylAsync(fullRecord, userId);
+            MessageBox.Show($"Successfully added: {fullRecord.Artist} - {fullRecord.Album}!");
         }
     }
     }

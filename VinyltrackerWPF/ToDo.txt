@@ -11,10 +11,9 @@ Details page
 	//Collection price
 	//Owned LP's
 
-Search
-	searching name will bring a list of type image-album-artist, clicking on it will open a page with more details where
-user can add to it's collection
-	adding will require user to insert the price, if not, it will use Recomanded price
+Add
+	//Confirm add
+	
 
 Collection
 	//show all albums, scrollable page, make it have basic information. Icon top right corner that will delete the item 
